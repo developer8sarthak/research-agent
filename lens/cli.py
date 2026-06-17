@@ -27,7 +27,7 @@ def print_header():
     console.print()
 
 @click.group()
-@click.version_option(version="0.1.2", prog_name="lens")
+@click.version_option(version="0.1.3", prog_name="lens")
 def main():
     """Lens: Local AI research agent."""
     pass
@@ -146,7 +146,7 @@ def run_research(query, query_arg):
         "query": clean_query,
         "timestamp": workspace["timestamp"],
         "session_id": workspace["name"],
-        "version": "0.1.2"
+        "version": "0.1.3"
     }
     save_json(workspace["base"] / "meta.json", meta)
     
