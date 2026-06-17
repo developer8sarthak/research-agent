@@ -10,7 +10,7 @@ def collect(query: str) -> dict:
     }
     headers = {"User-Agent": "Lens/1.0"}
 
-    response = get_with_retry(url, params=params, headers=headers, timeout=30)
+    response = get_with_retry(url, params=params, headers=headers)
     response.raise_for_status()
 
     raw_data = response.json()

@@ -7,7 +7,7 @@ from requests.adapters import HTTPAdapter
 LAST_REQUEST_TIME = 0
 MIN_INTERVAL = 2  # Minimum seconds between requests
 
-def get_with_retry(url: str, params=None, headers=None, timeout=30):
+def get_with_retry(url: str, params=None, headers=None, timeout=20):
     global LAST_REQUEST_TIME
     
     # Simple rate limiting
@@ -19,8 +19,8 @@ def get_with_retry(url: str, params=None, headers=None, timeout=30):
     
     # Configure retry strategy
     retry_strategy = Retry(
-        total=5,  # Increased retries
-        backoff_factor=2,  # Exponential backoff (2s, 4s, 8s...)
+        total=2,  # Reduced retries for faster failure
+        backoff_factor=1,  # Faster backoff
         status_forcelist=[429, 500, 502, 503, 504],
         allowed_methods=["GET"]
     )

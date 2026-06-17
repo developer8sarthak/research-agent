@@ -27,7 +27,7 @@ def print_header():
     console.print()
 
 @click.group()
-@click.version_option(version="0.1.3", prog_name="lens")
+@click.version_option(version="0.1.4", prog_name="lens")
 def main():
     """Lens: Local AI research agent."""
     pass
@@ -110,6 +110,7 @@ def run_research(query, query_arg):
     
     # 2. Execute collectors
     console.print("[secondary]Collecting Sources[/secondary]")
+    console.print("[dim]This might take up to 5 minutes depending on API response times.[/dim]")
     console.print()
 
     execution_reports = []
@@ -129,6 +130,39 @@ def run_research(query, query_arg):
             
     console.print()
 
+    # Show Results Table
+    results_table = Table(title="Results", box=None, show_header=False, title_style="accent", title_justify="left")
+    results_table.add_column("Collector", style="secondary")
+    results_table.add_column("Status")
+    results_table.add_column("Count", style="dim")
+
+    success_count = 0
+    fail_count = 0
+
+    for report in execution_reports:
+        collector = report["collector"]
+        status = report["status"]
+        if status == "success":
+            success_count += 1
+            count = report["data"].get("total_results") or report["data"].get("total_posts") or report["data"].get("total_repos") or len(report["data"].get("results", []))
+            results_table.add_row(collector, "[success]success[/success]", str(count))
+        else:
+            fail_count += 1
+            results_table.add_row(collector, "[fail]failed[/fail]", "0")
+    
+    console.print(results_table)
+    console.print()
+
+    # Show Summary
+    summary_table = Table(title="Summary", box=None, show_header=False, title_style="accent", title_justify="left")
+    summary_table.add_column("Metric", style="secondary")
+    summary_table.add_column("Value")
+    summary_table.add_row("Sources", str(total_collectors))
+    summary_table.add_row("Succeeded", str(success_count))
+    summary_table.add_row("Failed", str(fail_count))
+    console.print(summary_table)
+    console.print()
+
     # 3. Save results
     all_sources = {}
     for report in execution_reports:
@@ -146,7 +180,7 @@ def run_research(query, query_arg):
         "query": clean_query,
         "timestamp": workspace["timestamp"],
         "session_id": workspace["name"],
-        "version": "0.1.3"
+        "version": "0.1.4"
     }
     save_json(workspace["base"] / "meta.json", meta)
     
@@ -154,7 +188,7 @@ def run_research(query, query_arg):
     generate_reports(workspace)
     
     console.print("[success]Research complete.[/success]")
-    console.print(f"[secondary]Workspace saved at:[/secondary] [white]workspace/{workspace['name']}/[/white]")
+    console.print(f"[secondary]Workspace saved at:[/secondary] [white]{workspace['base'].resolve()}[/white]")
     console.print()
 
 

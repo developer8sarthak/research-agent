@@ -6,7 +6,7 @@ def collect(query: str) -> dict:
     url = "https://export.arxiv.org/api/query"
     params = {"search_query": f"all:{query}", "start": 0, "max_results": 25}
 
-    response = get_with_retry(url, params=params, timeout=30)
+    response = get_with_retry(url, params=params)
     response.raise_for_status()
 
     root = ET.fromstring(response.text)

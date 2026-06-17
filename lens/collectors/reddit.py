@@ -4,14 +4,13 @@ from lens.core.utils import get_with_retry
 def collect(query: str) -> dict:
     url = "https://www.reddit.com/search.json"
     headers = {
-        "User-Agent": "python:lensdev:v0.1.2 (by /u/developer8sarthak)"
+        "User-Agent": "python:lensdev:v0.1.3 (by /u/developer8sarthak)"
     }
 
     response = get_with_retry(
         url,
         params={"q": query, "limit": 25, "sort": "relevance"},
         headers=headers,
-        timeout=30,
     )
     response.raise_for_status()
 
