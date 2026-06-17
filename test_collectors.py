@@ -1,11 +1,19 @@
 import time
 import pytest
-from lens.collectors import arxiv, semantic_scholar, reddit
+from lens.collectors import (
+    arxiv, semantic_scholar, reddit, wiki, github, openalex, crossref, pubmed, doaj
+)
 
 @pytest.mark.parametrize("name, collector_module", [
     ("ArXiv", arxiv),
     ("Semantic Scholar", semantic_scholar),
-    ("Reddit", reddit)
+    ("Reddit", reddit),
+    ("Wikipedia", wiki),
+    ("GitHub", github),
+    ("OpenAlex", openalex),
+    ("CrossRef", crossref),
+    ("PubMed", pubmed),
+    ("DOAJ", doaj)
 ])
 def test_collector(name, collector_module, query="AI"):
     print(f"Testing {name}...")

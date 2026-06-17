@@ -6,6 +6,9 @@ from lens.collectors.crossref import collect as crossref_collect
 from lens.collectors.reddit import collect as reddit_collect
 from lens.collectors.semantic_scholar import collect as ssc_collect
 
+from lens.collectors.pubmed import collect as pubmed_collect
+from lens.collectors.doaj import collect as doaj_collect
+
 COLLECTORS = {
     "wikipedia": wiki_collect,
     "github": github_collect,
@@ -13,5 +16,7 @@ COLLECTORS = {
     "openalex": openalex_collect,
     "crossref": crossref_collect,
     "reddit": reddit_collect,
-    "semantic_scholar": ssc_collect
+    "semantic_scholar": ssc_collect,
+    "pubmed": pubmed_collect,
+    "doaj": doaj_collect
 }
